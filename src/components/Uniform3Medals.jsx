@@ -7,6 +7,10 @@ import Img6 from '../assets/unform3Medals/22.png'
 import Img7 from '../assets/unform3Medals/25.png'
 import Img8 from '../assets/unform3Medals/29.png'
 import Img9 from '../assets/unform3Medals/37.png'
+import Img90 from '../assets/unform3Medals/1b.png'
+import Img91 from '../assets/unform3Medals/12b.png'
+import Img92 from '../assets/unform3Medals/39.png'
+import Img93 from '../assets/unform3Medals/42.png'
 
 import Img10 from '../assets/unform3Medals/5b.png'
 import Img11 from '../assets/unform3Medals/50.png'
@@ -61,6 +65,22 @@ export const unform4Medals = [
         image: Img9,
         id: 9
     },
+    {
+        image: Img90,
+        id: 10
+    },
+    {
+        image: Img91,
+        id: 11
+    },
+    {
+        image: Img92,
+        id: 12
+    },
+    {
+        image: Img93,
+        id: 13
+    },
 ]
 
 export const unform3Medals = [
@@ -80,31 +100,37 @@ export const unform3Medals = [
 export const badges = [
     {
         image: Img10,
-        id: 1
+        id: 4
     },
     {
         image: Img11,
-        id: 2
-    },
-    {
-        image: Img12,
         id: 3
     },
     {
+        image: Img12,
+        id: 2
+    },
+    {
         image: Img13,
-        id: 4
+        id: 1
     },
 ]
 
 export const belowTelle = [
     {
-        image1: Img17,
-        image2: Img18,
+        image: Img17,
         id: 1
     },
     {
-        image1: Img19,
-        image2: Img20,
+        image: Img18,
         id: 2
     },
+    {
+        image: Img19,
+        id: 3
+    },
+    {
+        image: Img20,
+        id: 4
+    }
 ]

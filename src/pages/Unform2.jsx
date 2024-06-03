@@ -22,7 +22,8 @@ function Uniform2() {
     const [selectedInsignia, setSelectedInsignia] = useState({});
     const [isInsigniaselected, setIsInsigniaSelected] = useState(false)
 
-    const [selectedTelle, setSelectedTelle] = useState({});
+    const [selectedTelle, setSelectedTelle] = useState([]);
+    const [selectedTelleImage, setSelectedTelleImage] = useState([]);
     const [isTelleselected, setIsTelleSelected] = useState(false)
 
     const [selectedBadges, setSelectedBadges] = useState([]);
@@ -54,8 +55,30 @@ function Uniform2() {
             setSelectedMedals1(selectedMedals1.filter(medal => medal.id !== id));
             setSelectedMedalsIndex1(selectedMedalsIndex1.filter(index => index !== id));
         } else {
-            setSelectedMedals1([...selectedMedals1, { image: image, id: id }])
-            setSelectedMedalsIndex1([...selectedMedalsIndex1, id])
+            let newMedalsList = [...selectedMedals1];
+            let newMedalsIndexList = [...selectedMedalsIndex1];
+
+            if (newMedalsList.length === 2) {
+                newMedalsList.pop();
+                newMedalsIndexList.pop();
+            }
+
+            if (newMedalsList.length === 1) {
+                if (newMedalsList[0].id > id) {
+                    newMedalsList.push({ image: image, id: id });
+                    newMedalsIndexList.push(id);
+                } else {
+                    newMedalsList.unshift({ image: image, id: id });
+                    newMedalsIndexList.unshift(id);
+                }
+                setSelectedMedals1(newMedalsList);
+                setSelectedMedalsIndex1(newMedalsIndexList);
+            }else{
+                newMedalsList.push({ image: image, id: id });
+                newMedalsIndexList.push(id);
+                setSelectedMedals1(newMedalsList);
+                setSelectedMedalsIndex1(newMedalsIndexList);
+            }
         }
     }
 
@@ -96,9 +119,6 @@ function Uniform2() {
         }
     };
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
 
     const handleClose = () => {
         setOpen(false);
@@ -117,33 +137,47 @@ function Uniform2() {
                 <div className='relative'>
                     <img src={uniform3} className="logo max-w-[300px] h-[auto] ml-10" alt="Vite logo" />
                     {
-                        selectedInsignia && <img src={selectedInsignia.image} alt="" className={`h-auto w-[27px] absolute top-[22.2%] right-[25%] `} />
+                        selectedInsignia && selectedInsignia.id === 11 ? <img src={selectedInsignia.image} alt="" className={`h-auto w-[15px] absolute top-[21.7%] right-[25.3%] `} /> : selectedInsignia && <img src={selectedInsignia.image} alt="" className={`h-auto w-[27px] absolute top-[22.2%] right-[25%] `} />
                     }
                     {
-                        selectedTelle && selectedTelle.id === 1 && <div>
-                            <img src={selectedTelle.image1} alt="" className={`h-auto w-[17px] absolute top-[25.2%] left-[32%] `} />
-                            <img src={selectedTelle.image2} alt="" className={`h-auto w-[17px] absolute top-[25.2%] left-[39%] `} />
+                        selectedTelle.length === 1 && <div>
+                            {
+                                (selectedTelle[0] === 3 || selectedTelle[0] === 4) ? <img src={selectedTelleImage[0]} alt="" className={`h-auto w-[10px] absolute top-[25.1%] left-[36.4%] `} /> : <img src={selectedTelleImage[0]} alt="" className={`h-auto w-[17px] absolute top-[25.2%] left-[35.5%] `} />
+                            }
+                            {/* <img src={selectedTelleImage[0]} alt="" className={`h-auto w-[17px] absolute top-[25.2%] left-[32%] `} /> */}
                         </div>
                     }
                     {
+                        selectedTelle.length === 2 && <div>
+                            {
+                                (selectedTelle[0] === 3 || selectedTelle[0] === 4) ? <img src={selectedTelleImage[0]} alt="" className={`h-auto w-[10px] absolute top-[25.2%] left-[32%] `} /> : <img src={selectedTelleImage[0]} alt="" className={`h-auto w-[17px] absolute top-[25.2%] left-[32%] `} />
+                            }
+                            {
+                                (selectedTelle[1] === 3 || selectedTelle[1] === 4) ? <img src={selectedTelleImage[1]} alt="" className={`h-auto w-[10px] absolute top-[25.2%] left-[40%] `} /> : <img src={selectedTelleImage[1]} alt="" className={`h-auto w-[17px] absolute top-[25.2%] left-[39%] `} />
+                            }
+                        </div>
+                    }
+                    {
+                    }
+                    {/* {
                         selectedTelle && selectedTelle.id === 2 && <div>
                             <img src={selectedTelle.image1} alt="" className={`h-auto w-[10px] absolute top-[25.2%] left-[33%] `} />
                             <img src={selectedTelle.image2} alt="" className={`h-auto w-[10px] absolute top-[25.2%] left-[40%] `} />
                         </div>
+                    }*/}
+                    {
+                        selectedBadges.length >= 2 && (selectedBadgesIndex[0] === 4 || selectedBadgesIndex[0] === 2) ? <img src={flag} alt="" className={`h-auto w-[10px] absolute top-[20.2%] left-[36.7%] `} /> : selectedBadges.length >= 2 && <img src={flag} alt="" className={`h-auto w-[10px] absolute top-[20.7%] left-[36.7%] `} />
                     }
                     {
-                        selectedBadges.length >= 2 && <img src={flag} alt="" className={`h-auto w-[10px] absolute top-[21.1%] left-[36.2%] `} />
+                        selectedBadges.length === 1 && (selectedBadgesIndex[0] === 4 || selectedBadgesIndex[0] === 2) ? <img src={flag} alt="" className={`h-auto w-[10px] absolute top-[21.6%] left-[36.2%] `} /> : selectedBadges.length === 1 && <img src={flag} alt="" className={`h-auto w-[10px] absolute top-[21.9%] left-[36.2%] `} />
                     }
                     {
-                        selectedBadges.length === 1 && <img src={flag} alt="" className={`h-auto w-[10px] absolute top-[22%] left-[36.2%] `} />
-                    }
-                    {
-                        !selectedBadges.length && <img src={flag} alt="" className={`h-auto w-[10px] absolute top-[22.6%] left-[36.2%] `} />
+                        !selectedBadges.length && <img src={flag} alt="" className={`h-auto w-[10px] absolute top-[22.4%] left-[37%] `} />
                     }
                     {
                         selectedRank && <>
-                            <img style={{ transform: "rotateX(72deg) rotateY(-29deg)" }} src={selectedRank.rightImage} alt="" className={`h-auto w-[67px] absolute top-[16.2%] left-[22%] scale-15`} />
-                            <img style={{ transform: "rotateX(-72deg) rotateY(-29deg)" }} src={selectedRank.leftImage} alt="" className={`h-auto w-[67px] absolute top-[16.2%] left-[70%] scale-15`} />
+                            <img style={{ transform: "rotateX(60deg) rotateY(-28deg)" }} src={selectedRank.rightImage} alt="" className={`h-auto w-[71px] absolute top-[16.2%] left-[20.96%] scale-15`} />
+                            <img style={{ transform: "rotateX(-60deg) rotateY(-28deg)" }} src={selectedRank.leftImage} alt="" className={`h-auto w-[69px] absolute top-[16.2%] left-[70%] scale-15`} />
                         </>
                     }
                     {
@@ -228,16 +262,20 @@ function Uniform2() {
 
                     {
                         selectedBadges.length === 1 && <>
-                            <img src={selectedBadges[0].image} alt="" className={`h-auto w-[15px] absolute top-[23.1%] left-[35%]`} />
+                            <img src={selectedBadges[0].image} alt="" className={`h-auto absolute  ${(selectedBadgesIndex[0] === 4 || selectedBadgesIndex[0] === 2) ? 'w-[28px] top-[22.6%] left-[33.9%]' : selectedBadgesIndex[0] === 1 ? 'w-[15px] top-[23%] left-[35%]' : 'w-[15px] top-[23.1%] left-[35%]'} `} />
                         </>
                     }
                     {
                         selectedBadges.length >= 2 && <>
-                            <img src={selectedBadges[1].image} alt="" className={`h-auto w-[15px] absolute top-[22.1%] left-[35%]`} />
-                            <img src={selectedBadges[0].image} alt="" className={`h-auto w-[15px] absolute top-[23.1%] left-[35%]`} />
+                            {
+                                (selectedBadgesIndex[0] === 4 || selectedBadgesIndex[1] === 3 || selectedBadgesIndex[1] == 1) ? selectedBadgesIndex[1] == 1 ? <img src={selectedBadges[1].image} alt="" className={`h-auto w-[17px] absolute ${selectedBadgesIndex[0] === 3 ? 'top-[22%] left-[35%]' : 'top-[21.4%] left-[35.8%]'}`} /> :
+                                    <img src={selectedBadges[1].image} alt="" className={`h-auto absolute ${selectedBadgesIndex[1] === 2 ? selectedBadgesIndex[0] === 3 ? 'top-[22%] left-[33%] w-[28px] ' : 'top-[21.9%] left-[33.8%] w-[28px] ' : 'top-[21.7%] left-[35.2%] w-[19px] '}`} /> : (selectedBadgesIndex[1] === 4 && selectedBadgesIndex[0] === 2) ? <img src={selectedBadges[1].image} alt="" className={`h-auto w-[28px] absolute top-[21.4%] left-[33.9%]`} /> :
+                                    <img src={selectedBadges[1].image} alt="" className={`h-auto w-[28px] absolute top-[21.9%] left-[33.9%]`} />
+                            }
+                            <img src={selectedBadges[0].image} alt="" className={`h-auto absolute ${(selectedBadgesIndex[0] === 4 || selectedBadgesIndex[0] === 2) ? (selectedBadgesIndex[1] === 4 && selectedBadgesIndex[0] === 2) ? 'w-[28px] top-[22.8%] left-[33.9%]' : 'w-[28px] top-[22.6%] left-[33.9%]' : 'w-[15px] top-[23.1%] left-[35%]'} `} />
                         </>
                     }
-                    <div className='bg-black w-[16px] h-[4.5px] absolute top-[24%] left-[34.6%]'></div>
+                    <div className='bg-black w-[24px] h-[4.5px] absolute top-[24%] left-[34.3%]'></div>
                 </div>
                 <div className='mr-5 hidden md:flex justify-center w-full'>
                     {
@@ -272,15 +310,30 @@ function Uniform2() {
                             <div className='flex flex-wrap ml-4'>
                                 {
                                     belowTelle.map((Item) => (
-                                        <div key={Item.image1} style={{ border: `${selectedTelle.id === Item.id ? "2px solid #ccc" : ""}`, padding: "2px 3px" }} onClick={() => {
-                                            if (selectedTelle.id === Item.id) {
-                                                setSelectedTelle({})
+                                        <div key={Item.image} style={{ border: `${selectedTelle.includes(Item.id) ? "2px solid #ccc" : ""}`, padding: "2px 3px" }} onClick={() => {
+                                            if (selectedTelle.includes(Item.id)) {
+                                                setSelectedTelle(selectedTelle.filter(medal => medal !== Item.id))
+                                                setSelectedTelleImage(selectedTelleImage.filter(medal => medal !== Item.image))
                                             } else {
-                                                setSelectedTelle(Item)
+                                                if(selectedTelle.length >= 1){
+                                                    if(Item.id === 1 || Item.id === 2){
+                                                        if(selectedTelle.includes(1) || selectedTelle.includes(2)){
+                                                            setSelectedTelle([...selectedTelle, Item.id])
+                                                            setSelectedTelleImage([...selectedTelleImage, Item.image])
+                                                        }
+                                                    }else if(Item.id === 3 || Item.id === 4){
+                                                        if(selectedTelle.includes(3) || selectedTelle.includes(4)){
+                                                            setSelectedTelle([...selectedTelle, Item.id])
+                                                            setSelectedTelleImage([...selectedTelleImage, Item.image])
+                                                        }
+                                                    }
+                                                }else{
+                                                    setSelectedTelle([...selectedTelle, Item.id])
+                                                    setSelectedTelleImage([...selectedTelleImage, Item.image])
+                                                }
                                             }
                                         }} className='m-2 flex' >
-                                            <img loading='lazy' className='w-[auto] h-[40px] m-5' key={Item.image1} src={Item.image1} alt="" />
-                                            <img loading='lazy' className='w-[auto] h-[40px] m-5' key={Item.image2} src={Item.image2} alt="" />
+                                            <img loading='lazy' className='w-[auto] h-[40px] m-5' key={Item.image} src={Item.image} alt="" />
                                         </div>
                                     ))
                                 }
@@ -421,21 +474,16 @@ function Uniform2() {
                                         <div className='flex flex-wrap ml-4'>
                                             {
                                                 belowTelle.map((Item) => (
-                                                    <div key={Item.image1} style={{ border: `${selectedTelle.id === Item.id ? "2px solid #ccc" : ""}`, padding: "2px 3px" }} onClick={() => {
-                                                        if (selectedTelle.id === Item.id) {
-                                                            setSelectedTelle({})
+                                                    <div key={Item.image} style={{ border: `${selectedTelle.includes(Item.id) ? "2px solid #ccc" : ""}`, padding: "2px 3px" }} onClick={() => {
+                                                        if (selectedTelle.includes(Item.id)) {
+                                                            setSelectedTelle(selectedTelle.filter(medal => medal !== Item.id))
+                                                            setSelectedTelleImage(selectedTelleImage.filter(medal => medal !== Item.image))
                                                         } else {
-                                                            setSelectedTelle(Item)
+                                                            setSelectedTelle([...selectedTelle, Item.id])
+                                                            setSelectedTelleImage([...selectedTelleImage, Item.image])
                                                         }
                                                     }} className='m-2 flex' >
-                                                        {
-                                                            Item.id === 1 ? <>
-                                                                <img loading='lazy' className='w-[auto] h-[20px] m-5 mb-2' key={Item.image1} src={Item.image1} alt="" />
-                                                                <img loading='lazy' className='w-[auto] h-[20px] m-5 mb-2' key={Item.image2} src={Item.image2} alt="" />
-                                                            </> : <>
-                                                                <img loading='lazy' className='w-[auto] h-[40px] m-5 ml-6' key={Item.image1} src={Item.image1} alt="" />
-                                                                <img loading='lazy' className='w-[auto] h-[40px] m-5 ml-9' key={Item.image2} src={Item.image2} alt="" /></>
-                                                        }
+                                                        <img loading='lazy' className='w-[auto] h-[40px] m-5' key={Item.image} src={Item.image} alt="" />
                                                     </div>
                                                 ))
                                             }
